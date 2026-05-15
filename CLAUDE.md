@@ -63,16 +63,10 @@ If `click_edit_button()` times out (ticket ID not found in Worksmith), the excep
 
 The conditional item-name text input that appears after selecting "Other" is not yet implemented — its selector is still pending HTML inspection.
 
-**Row count mismatch edge case (not yet implemented):**
-The CSV is the source of truth. The Worksmith ticket form is pre-filled by the company and may have fewer rows than the CSV specifies. For example, if the CSV has 3 articles but the form only has 2 rows, the automation must click "Add clothing article" to create the missing row before filling it. Playwright locators are live, so `rows.count()` re-evaluates after each add. The planned fix in `edit_ticket`:
-```python
-rows = self.page.locator('tr[data-ng-repeat="item in vm.ticket.items"]')
-for i, article in enumerate(ticket.articles):
-    if i >= rows.count():
-        self.click_add_article_button()  # rows.count() increases automatically
-    self.fill_article_section(rows.nth(i), article)
-```
-The selector for the "Add clothing article" button is still needed before this can be implemented.
+**Row count mismatch edge case (implemented):**
+The CSV is the source of truth. The Worksmith ticket form is pre-filled by the company and may have fewer rows than the CSV specifies. Before filling each row, `edit_ticket` checks `if i >= rows.count()` and calls `click_add_article_button()` to create the missing row, then waits for it to appear. Playwright locators are live, so `rows.count()` re-evaluates automatically after each add.
+
+The "Add Article of Clothing" button selector: `[data-ng-click="vm.addItem()"]`
 
 ## Distribution Scripts
 

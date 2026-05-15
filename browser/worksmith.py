@@ -21,6 +21,9 @@ class WorksmithBot:
         rows.first.wait_for(state="visible")
 
         for i, article in enumerate(ticket.articles):
+            if i >= rows.count():
+                self.click_add_article_button()
+                rows.nth(i).wait_for(state="visible")
             print(f"  Filling row {i}: {article.item} / {article.service_type}...")
             self.fill_article_section(rows.nth(i), article)
 
@@ -49,6 +52,9 @@ class WorksmithBot:
         row.locator('[data-ng-model="item.quantity"]').fill(str(article.quantity))
         row.locator('[ng-model="item.unitWholesalePrice"]').fill(str(article.price_per_unit))
         row.locator('[data-ng-model="item.description"]').fill(article.notes)
+
+    def click_add_article_button(self) -> None:
+        self.page.locator('[data-ng-click="vm.addItem()"]').click()
 
     def wait_for_modal_close(self) -> None:
         # timeout=0 waits indefinitely — the user decides when to save or close
