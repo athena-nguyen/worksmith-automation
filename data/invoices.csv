@@ -1,0 +1,5 @@
+company,ticket_id,item,service_type,quantity,price_per_unit,notes
+Acme Corp,WS-12345,pants,alteration,1,22.00,shorten hem
+Acme Corp,WS-12345,jacket,dry_clean,2,15.00,
+Globex Inc,WS-67890,dress,alteration,1,30.00,take in waist
+Globex Inc,WS-67890,shirt,pressing,3,8.00,use low heat
